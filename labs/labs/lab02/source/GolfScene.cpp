@@ -29,31 +29,37 @@ namespace lab2
         }
     }
 
+
     void GolfScene::renderScene()
     {
         using atlas::utils::Gui;
         
         Gui::getInstance().newFrame();
-        const float grey = 92.0f / 255.0f;
-        glClearColor(grey, grey, grey, 1.0f);
+        //const float grey = 92.0f / 255.0f;
+        const float black = 0.0f;
+        glClearColor(black, black, black, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         mProjection = glm::perspective(
             glm::radians(mCamera.getCameraFOV()),
-            (float)mWidth / mHeight, 1.0f, 100000000.0f);
-        mView = mCamera.getCameraMatrix();
+            (float)mWidth / mHeight, 1.0f, 1000000000.0f);
+
+        //mView = mCamera.getCameraMatrix();
+
+        mView = glm::lookAt(
+                glm::vec3(50,50,50),
+                glm::vec3(0,0,0),
+                glm::vec3(0,1,0)
+        );
+
 
         mGrid.renderGeometry(mProjection, mView);
         mBall.renderGeometry(mProjection, mView);
 
-        // Global HUD
-        ImGui::SetNextWindowSize(ImVec2(350, 140), ImGuiSetCond_FirstUseEver);
-        ImGui::Begin("Global HUD");
-        if (ImGui::Button("Reset Camera"))
-        {
-            mCamera.resetCamera();
-        }
 
+        // Global HUD
+        ImGui::SetNextWindowSize(ImVec2(50, 60), ImGuiSetCond_FirstUseEver);
+        ImGui::Begin("Control");
         if (mPlay)
         {
             if (ImGui::Button("Pause"))
@@ -76,47 +82,9 @@ namespace lab2
             mAnimTime.totalTime = 0.0f;
             mPlay = false;
         }
+        
 
-        ImGui::Text("Application average %.3f ms/frame (%.1FPS)",
-            1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-
-        std::vector<const char*> options = { "60 FPS", "30 FPS", "20 FPS",
-        "10 FPS", "5 FPS", "1 FPS" };
-        ImGui::Combo("Choose FPS: ", &mFPSOption, options.data(),
-            ((int)options.size()));
         ImGui::End();
-
-        switch (mFPSOption)
-        {
-        case 0:
-            mFPS = 60.0f;
-            break;
-
-        case 1:
-            mFPS = 30.0f;
-            break;
-
-        case 2:
-            mFPS = 20.0f;
-            break;
-
-        case 3:
-            mFPS = 10.0f;
-            break;
-
-        case 4:
-            mFPS = 5.0f;
-            break;
-
-        case 5:
-            mFPS = 1.0f;
-            break;
-
-        default:
-            break;
-        }
-
-        mCounter.setFPS(mFPS);
 
         mBall.drawGui();
         ImGui::Render();

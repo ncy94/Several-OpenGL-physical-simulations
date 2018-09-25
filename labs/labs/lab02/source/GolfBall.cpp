@@ -6,20 +6,33 @@
 #include <atlas/core/STB.hpp>
 #include <atlas/core/Float.hpp>
 #include <atlas/utils/GUI.hpp>
+#include <GolfScene.hpp>
 
 namespace lab2
 {
     GolfBall::GolfBall() :
         mVertexBuffer(GL_ARRAY_BUFFER),
         mIndexBuffer(GL_ELEMENT_ARRAY_BUFFER),
-        mTruePosition(6, 1, 12),
-        mApproxPosition(-6, 1, 12),
-        mOffset(6, 1, 12),
-        mApproxVelocity(0),
-        mApproxOldPosition(-6, 1, 12),
+        mStar1Position(10, 0, 0),
+        mStar2Position(-10, 0, 0),
+        mApproxPosition(-20, 10, 20),
+        mStar1Velocity(0, 0, -10),
+        mStar2Velocity(0, 0, 10),
+        mApproxVelocity(60,0,0),
         mForce(0, 0, -10),
-        mMass(1.0f),
-        mIntegrator(0)
+        mForce1(0,0,0),
+        mForce2(0,0,0),
+        mPlanetMass(5.0f),
+        mStar1Mass(10.0f),
+        mStar2Mass(10.0f),
+        mIntegrator(0),
+        mForceDirection1(0,0,0),
+        mForceDirection2(0,0,0),
+        mStarForceDirection(0,0,0),
+        mStarForce(0,0,0),
+        G(50.0f)
+
+
     {
         using atlas::utils::Mesh;
         namespace gl = atlas::gl;
@@ -91,49 +104,41 @@ namespace lab2
         mUniforms.insert(UniformKey("materialColour", var));
 
         mShaders[0].disableShaders();
+        mModel = glm::scale(math::Matrix4(1.0f), math::Vector(1.0f));
     }
 
     void GolfBall::updateGeometry(atlas::core::Time<> const& t)
     {
-        using atlas::core::leq;
+        orbitingPlanet(t);
 
-        if (leq(mTruePosition.z, -12.0f))
-        {
-            return;
-        }
+        //GolfScene::camView = mApproxPosition;
 
-        switch (mIntegrator)
-        {
-        case 0:
-            eulerIntegrator(t);
-            break;
-
-        case 1:
-            implicitEulerIntegrator(t);
-            break;
-
-        case 2:
-            verletIntegrator(t);
-            break;
-
-        default:
-            break;
-        }
+        binaryStarMovement(t);
 
         float timeSq = t.currentTime * t.currentTime;
-        mTruePosition = mOffset + 0.5f * (mForce / mMass) * timeSq;
+        //mTruePosition = mOffset + 0.5f * (mForce / mMass) * timeSq;
     }
+
+
 
     void GolfBall::drawGui()
     {
-        ImGui::SetNextWindowSize(ImVec2(300, 100), ImGuiSetCond_FirstUseEver);
-        ImGui::Begin("Integration Controls");
+        ImGui::SetNextWindowSize(ImVec2(300, 140), ImGuiSetCond_FirstUseEver);
+        ImGui::Begin("Configurations");
 
-        std::vector<const char*> integratorNames = { "Euler Intergrator",
-        "Implicit Euler Integrator", "Verlet Integrator" };
-        ImGui::Combo("Integrator", &mIntegrator, integratorNames.data(),
-            ((int)integratorNames.size()));
-        ImGui::InputFloat("Set force", &mForce.z, 1.0f, 5.0f, 1);
+       // std::vector<const char*> integratorNames = { "Euler Intergrator",
+       // "Implicit Euler Integrator", "Verlet Integrator" };
+       // ImGui::Combo("Integrator", &mIntegrator, integratorNames.data(),
+       //     ((int)integratorNames.size()));
+        ImGui::InputFloat("Set Tatooine mass", &mPlanetMass, 1.0f, 5.0f, 1);
+        ImGui::InputFloat("Set WHITE star mass", &mStar1Mass, 1.0f, 5.0f, 1);
+        ImGui::InputFloat("Set RED star mass", &mStar2Mass, 1.0f, 5.0f, 1);
+        ImGui::InputFloat("Set Tatooine speed", &mApproxVelocity.x, 1.0f, 5.0f, 1);
+        ImGui::InputFloat("Set WHITE star speed", &mStar1Velocity.z, 1.0f, 5.0f, 1);
+        ImGui::InputFloat("Set RED star speed", &mStar2Velocity.z, 1.0f, 5.0f, 1);
+        ImGui::InputFloat("Set constant G", &G , 1.0f, 5.0f, 1);
+
+
         ImGui::End();
     }
     
@@ -157,22 +162,31 @@ namespace lab2
             &projection[0][0]);
         glUniformMatrix4fv(mUniforms["view"], 1, GL_FALSE, &view[0][0]);
 
-        // Render the true sphere first.
+
         {
-            const math::Vector copper{ 0.71f, 0.44f, 0.19f };
-            auto model = glm::translate(math::Matrix4(1.0f), mTruePosition);
+            const math::Vector white{1.0f, 1.0f, 1.0f};
+            auto model = glm::translate(math::Matrix4(1.0f), mStar1Position);
             glUniformMatrix4fv(mUniforms["model"], 1, GL_FALSE, &model[0][0]);
-            glUniform3fv(mUniforms["materialColour"], 1, &copper[0]);
+            glUniform3fv(mUniforms["materialColour"], 1, &white[0]);
             glDrawElements(GL_TRIANGLES, mIndexCount, GL_UNSIGNED_INT, 0);
         }
 
-        // Now render the integrated sphere.
+
         {
-            const math::Vector metalGray{ 0.0f, 0.46f, 0.69f };
-            auto model = glm::translate(math::Matrix4(1.0f), mApproxPosition);
+            const math::Vector tatoonie{ 0.71f, 0.44f, 0.19f}; //{ 0.0f, 0.46f, 0.69f };
+            auto model = glm::translate(math::Matrix4(1.0f), mApproxPosition) * glm::scale(math::Matrix4(1.0f), math::Vector(0.5f));
             glUniformMatrix4fv(mUniforms["model"], 1, GL_FALSE, &model[0][0]);
-            glUniform3fv(mUniforms["materialColour"], 1, &metalGray[0]);
+            glUniform3fv(mUniforms["materialColour"], 1, &tatoonie[0]);
             glDrawElements(GL_TRIANGLES, mIndexCount, GL_UNSIGNED_INT, 0);
+        }
+
+        {
+            const math::Vector red{1.0f, 0.0f, 0.0f};
+            auto model = glm::translate(math::Matrix4(1.0f), mStar2Position);
+            glUniformMatrix4fv(mUniforms["model"], 1, GL_FALSE, &model[0][0]);
+            glUniform3fv(mUniforms["materialColour"], 1, &red[0]);
+            glDrawElements(GL_TRIANGLES, mIndexCount, GL_UNSIGNED_INT, 0);
+
         }
 
         mIndexBuffer.unBindBuffer();
@@ -182,24 +196,58 @@ namespace lab2
 
     void GolfBall::resetGeometry()
     {
-        mTruePosition = { 6, 1, 12 };
-        mApproxPosition = { -6, 1, 12 };
-        mApproxOldPosition = mApproxPosition;
-        mApproxVelocity = { 0, 0, 0 };
+        mStar1Position = {6, 0, 0};
+        mStar2Position = {-6, 0, 0};
+        mApproxPosition = {-20, 1, 20};
+        mStar1Velocity = {0, 0, -10};
+        mStar2Velocity = {0, 0, 10},
+        mApproxVelocity = {50, 0, 0};
+
     }
 
-    void GolfBall::eulerIntegrator(atlas::core::Time<> const& t)
+    void GolfBall::orbitingPlanet(atlas::core::Time<> const& t)
     {
+        // the force from star1 to planet
+        mForceDirection1 = mStar1Position - mApproxPosition;
+        float r1 = mForceDirection1.length();
+        mForce1 = (G * mStar1Mass * mPlanetMass / (r1*r1)) * glm::normalize(mForceDirection1);
+
+        // the force from star2 to planet
+        mForceDirection2 = mStar2Position - mApproxPosition;
+        float r2 = mForceDirection2.length();
+        mForce2 = (G * mStar2Mass * mPlanetMass / (r2*r2)) * glm::normalize(mForceDirection2);
+
+        mForce = mForce1 + mForce2;
+
+        mApproxVelocity += t.deltaTime*mForce/mPlanetMass;
+
+        mApproxPosition += t.deltaTime*mApproxVelocity;
+
+
+
         // TODO: Fill this in.
     }
 
-    void GolfBall::implicitEulerIntegrator(atlas::core::Time<> const& t)
+    void GolfBall::binaryStarMovement(atlas::core::Time<> const &t)
     {
-        // TODO: Fill this in.
+        float r = glm::distance(mStar1Position,mStar2Position);
+
+        mStarForceDirection = mStar2Position - mStar1Position; //force direction from star1 to star2
+
+        glm::normalize(mStarForceDirection);
+
+        mStarForce = G*mStar1Mass*mStar2Mass/ (r*r) *mStarForceDirection;
+
+        mStar1Velocity += t.deltaTime * mStarForce/mStar1Mass;
+        mStar1Position += t.deltaTime * mStar1Velocity;
+
+        mStar2Velocity += t.deltaTime * (-mStarForce)/mStar2Mass;
+        mStar2Position += t.deltaTime * mStar2Velocity;
+
+
+
+
     }
 
-    void GolfBall::verletIntegrator(atlas::core::Time<> const& t)
-    {
-        // TODO: Fill this in.
-    }
+
 }

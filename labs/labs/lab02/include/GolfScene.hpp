@@ -14,9 +14,11 @@ namespace lab2
 
         void updateScene(double time) override;
         void renderScene() override;
+        bool mPlay;
+
 
     private:
-        bool mPlay;
+
         int mFPSOption;
         float mFPS;
 

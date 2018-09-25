@@ -19,24 +19,44 @@ namespace lab2
 
         void resetGeometry() override;
 
+        atlas::math::Vector getTatooniePosition(){
+            return mApproxPosition;
+        }
+
+        atlas::math::Vector getStar1Position(){
+            return mStar1Position;
+        }
+
+
+
+
+
+
     private:
-        void eulerIntegrator(atlas::core::Time<> const& t);
-        void implicitEulerIntegrator(atlas::core::Time<> const& t);
-        void verletIntegrator(atlas::core::Time<> const& t);
+        void orbitingPlanet(atlas::core::Time<> const& t);
+        void binaryStarMovement(atlas::core::Time<> const& t);
+
 
         atlas::gl::Buffer mVertexBuffer;
         atlas::gl::Buffer mIndexBuffer;
         atlas::gl::VertexArrayObject mVao;
 
-        atlas::math::Vector mTruePosition;
-        atlas::math::Vector mOffset;
+        atlas::math::Vector mStar1Position;
+        atlas::math::Vector mStar2Position;
+        atlas::math::Vector mStar1Velocity;
+        atlas::math::Vector mStar2Velocity;
         atlas::math::Vector mApproxPosition;
         atlas::math::Vector mApproxVelocity;
-        atlas::math::Vector mApproxOldPosition;
         atlas::math::Vector mForce;
+        atlas::math::Vector mForce1;
+        atlas::math::Vector mForce2;
+        atlas::math::Vector mStarForce;
+        atlas::math::Vector mStarForceDirection;
+        atlas::math::Vector mForceDirection1;
+        atlas::math::Vector mForceDirection2;
 
 
-        float mMass;
+        float mPlanetMass, mStar1Mass, mStar2Mass, G;
         int mIntegrator;
 
         GLsizei mIndexCount;
