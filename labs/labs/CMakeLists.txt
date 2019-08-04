@@ -1,2 +1,2 @@
 #add_subdirectory("${LABS_ROOT}/lab01")
-add_subdirectory("${LABS_ROOT}/lab03")
+add_subdirectory("${LABS_ROOT}/lab04")
