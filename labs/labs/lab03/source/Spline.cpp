@@ -214,7 +214,42 @@ namespace lab3
         using atlas::math::Point;
 
         // TODO by students.
-        return Point(0.0f, 0.0f, 0.0f);
+        Vector4 tempx(
+                mControlPoints[0].x,
+                mControlPoints[1].x,
+                mControlPoints[2].x,
+                mControlPoints[3].x
+        );
+
+        Vector4 tempy(
+                mControlPoints[0].y,
+                mControlPoints[1].y,
+                mControlPoints[2].y,
+                mControlPoints[3].y
+
+        );
+
+        Vector4 tempz(
+                mControlPoints[0].z,
+                mControlPoints[1].z,
+                mControlPoints[2].z,
+                mControlPoints[3].z
+
+        );
+
+        Vector4 xcoeff, ycoeff, zcoeff;
+
+        xcoeff = tempx * mBasisMatrix;
+        ycoeff = tempy * mBasisMatrix;
+        zcoeff = tempz * mBasisMatrix;
+
+
+        float x = xcoeff[0] + t*xcoeff[1] + t*t*xcoeff[2] + t*t*t*xcoeff[3];
+        float y = ycoeff[0] + t*ycoeff[1] + t*t*ycoeff[2] + t*t*t*ycoeff[3];
+        float z = zcoeff[0] + t*zcoeff[1] + t*t*zcoeff[2] + t*t*t*zcoeff[3];
+
+
+        return Point(x, y, z);
     }
 
     void Spline::generateArcLengthTable()
@@ -226,11 +261,18 @@ namespace lab3
             mTable.clear();
         }
 
+        float length = 0.0f;
+        float scale = 1.0f / mResolution;
+
+
         // TODO by students.
         mTable.push_back(0.0f);
         for (int i = 1; i < mResolution + 1; ++i)
         {
-            mTable.push_back(0.0f);
+            Point temp1 = evaluateSpline((i-1)*scale);
+            Point temp2 = evaluateSpline(i*scale);
+            length += glm::length(temp2 - temp1);
+            mTable.push_back(length);
         }
     }
 
