@@ -59,7 +59,7 @@ According to Newton's second law,
 <img src="https://latex.codecogs.com/svg.latex?F&space;=&space;ma" title="F = ma" />
 So we can calculate the acceleration $a$ from the mass and its forces. 
 There'are two methods that we can calculate the position of the object. The first methods is to use the equation for absolute time:
-<img src="https://latex.codecogs.com/svg.latex?v_t&space;=&space;v_0&space;&plus;&space;a\cdot&space;t" title="v_t = v_0 + a\cdot t" />
+<img src="https://latex.codecogs.com/svg.latex?v_t&space;=&space;v_0&space;&plus;&space;a\cdot&space;t" title="v_t = v_0 + a\cdot t" /> 
 <img src="https://latex.codecogs.com/svg.latex?p_t&space;=&space;\frac{1}{2}&space;\cdot&space;a&space;\cdot&space;t^2&space;&plus;&space;v_0&space;\cdot&space;t&space;&plus;&space;p_0" title="p_t = \frac{1}{2} \cdot a \cdot t^2 + v_0 \cdot t + p_0" />
 The second method was to apply the integration for the diffrentiated time:
 <img src="https://latex.codecogs.com/svg.latex?P(t)&space;=&space;P(t)&space;&plus;&space;\Delta&space;t&space;\cdot&space;v(t)" title="P(t) = P(t) + \Delta t \cdot v(t)" />
@@ -79,7 +79,7 @@ If we're going to construct a Bezier Spline with 4 control points, let `(xc_i,yc
 The `y` and `z` coordinates can be computed in the same way.
 
 ### Spring-pendulum
-Let $k$ denotes the spring constant, $M$ denotes the mass of the object attached to the wall with a spring, $m, l$ denotes the mass and length of the pendulum, which is shown as the graph below:
+Let `k` denotes the spring constant, `M` denotes the mass of the object attached to the wall with a spring, `m`, `l` denotes the mass and length of the pendulum, which is shown as the graph below:
 ![](labs/data/springpendulum.png)
 With Lagrangian Mechanics, we can get the following:
 1. The kinetic energy is:
