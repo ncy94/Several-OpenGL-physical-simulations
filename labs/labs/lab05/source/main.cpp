@@ -1,4 +1,4 @@
-#include "PlanetScene.hpp"
+#include "GolfScene.hpp"
 
 #include <atlas/utils/Application.hpp>
 #include <atlas/utils/WindowSettings.hpp>
@@ -10,7 +10,7 @@ int main()
     using atlas::utils::ContextVersion;
     using atlas::utils::Application;
     using atlas::utils::ScenePointer;
-    using namespace lab5;
+    using namespace lab2;
 
     atlas::gl::setGLErrorSeverity(
         ATLAS_GL_ERROR_SEVERITY_HIGH | ATLAS_GL_ERROR_SEVERITY_MEDIUM);
@@ -21,7 +21,7 @@ int main()
     settings.isMaximized = true;
 
     Application::getInstance().createWindow(settings);
-    Application::getInstance().addScene(ScenePointer(new PlanetScene));
+    Application::getInstance().addScene(ScenePointer(new GolfScene));
     Application::getInstance().runApplication();
 
     return 0;

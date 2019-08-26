@@ -1,6 +1,6 @@
 set(INCLUDE_LIST
-    "${LAB_INCLUDE_ROOT}/PlanetScene.hpp"
-    "${LAB_INCLUDE_ROOT}/Planet.hpp"
+    "${LAB_INCLUDE_ROOT}/GolfScene.hpp"
+    "${LAB_INCLUDE_ROOT}/GolfBall.hpp"
     )
 
 set(PATH_INCLUDE "${LAB_INCLUDE_ROOT}/Paths.hpp")

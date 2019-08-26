@@ -17,7 +17,6 @@ include_directories(${LAB_INCLUDE_ROOT})
 include_directories(${LAB_SHADER_ROOT})
 
 add_executable(${LAB_NAME} ${LAB_SOURCE_LIST} ${LAB_INCLUDE_LIST}
-        ${LAB_SHADER_LIST})
+    ${LAB_SHADER_LIST})
 target_link_libraries(${LAB_NAME} ${ATLAS_LIBRARIES})
 set_target_properties(${LAB_NAME} PROPERTIES FOLDER "labs")
-
