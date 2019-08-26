@@ -80,17 +80,26 @@ Let $k$ denotes the spring constant, $M$ denotes the mass of the object attached
 ![](labs/data/springpendulum.png)
 With Lagrangian Mechanics, we can get the following:
 1. The kinetic energy is:
-$$T = \frac{1}{2}\dot x^2 + \frac{1}{2}(\dot x^2 + \dot y^2) =\frac{1}{2}(M+m)\dot x^2+\frac{1}{2}ml^2\dot \theta^2 + ml\cdot cos\theta\cdot \dot x \dot \theta$$ The potential energy is: $$U = \frac{1}{2}kx^2-mgl\cdot cos\theta$$So, $$L = T-U=\frac{1}{2}(M+m)\dot x^2+\frac{1}{2}ml^2\dot \theta^2 +ml\cdot cos\theta\cdot \dot x \dot\theta - \frac{1}{2}kx^2+mgl\cdot cos\theta$$
+  <img src="https://latex.codecogs.com/svg.latex?T&space;=&space;\frac{1}{2}\dot&space;x^2&space;&plus;&space;\frac{1}{2}(\dot&space;x^2&space;&plus;&space;\dot&space;y^2)&space;=\frac{1}{2}(M&plus;m)\dot&space;x^2&plus;\frac{1}{2}ml^2\dot&space;\theta^2&space;&plus;&space;ml\cdot&space;cos\theta\cdot&space;\dot&space;x&space;\dot&space;\theta" title="T = \frac{1}{2}\dot x^2 + \frac{1}{2}(\dot x^2 + \dot y^2) =\frac{1}{2}(M+m)\dot x^2+\frac{1}{2}ml^2\dot \theta^2 + ml\cdot cos\theta\cdot \dot x \dot \theta" />
+ The potential energy is: 
+ <img src="https://latex.codecogs.com/svg.latex?U&space;=&space;\frac{1}{2}kx^2-mgl\cdot&space;cos\theta" title="U = \frac{1}{2}kx^2-mgl\cdot cos\theta" />
+ So, 
+ <img src="https://latex.codecogs.com/svg.latex?L&space;=&space;T-U&space;=\frac{1}{2}(M&plus;m)\dot&space;x^2&plus;\frac{1}{2}ml^2\dot&space;\theta^2&space;&plus;ml\cdot&space;cos\theta\cdot&space;\dot&space;x&space;\dot\theta&space;-&space;\frac{1}{2}kx^2&plus;mgl\cdot&space;cos\theta" title="L = T-U =\frac{1}{2}(M+m)\dot x^2+\frac{1}{2}ml^2\dot \theta^2 +ml\cdot cos\theta\cdot \dot x \dot\theta - \frac{1}{2}kx^2+mgl\cdot cos\theta" />
 2. The canonical momentas:
-$$P_x = \frac{\partial L}{\partial \dot x} = (M+m)\dot x + ml\cdot cos \dot\theta$$$$P_{\theta} = \frac{\partial L}{\partial \dot \theta} = ml\cdot cos\theta \dot x + ml^2\dot\theta^2$$
+<img src="https://latex.codecogs.com/svg.latex?P_x&space;=&space;\frac{\partial&space;L}{\partial&space;\dot&space;x}&space;=&space;(M&plus;m)\dot&space;x&space;&plus;&space;ml\cdot&space;cos&space;\dot\theta$$" title="P_x = \frac{\partial L}{\partial \dot x} = (M+m)\dot x + ml\cdot cos \dot\theta$$" />
+<img src="https://latex.codecogs.com/svg.latex?$$P_{\theta}&space;=&space;\frac{\partial&space;L}{\partial&space;\dot&space;\theta}&space;=&space;ml\cdot&space;cos\theta&space;\dot&space;x&space;&plus;&space;ml^2\dot\theta^2$$" title="$$P_{\theta} = \frac{\partial L}{\partial \dot \theta} = ml\cdot cos\theta \dot x + ml^2\dot\theta^2$$" />
 3. their derivatives of time are:
-$$\frac{d}{dt}(\frac{\partial L}{\partial \dot x})=(M+m)\ddot x+ml\cdot cos\theta \cdot \dot\theta^2$$ $$\frac{d}{dt}(\frac{\partial L}{\partial \dot\theta})=ml\cdot cos\theta\cdot\ddot x + ml^2\ddot\theta$$
+<img src="https://latex.codecogs.com/svg.latex?\frac{d}{dt}(\frac{\partial&space;L}{\partial&space;\dot&space;x})=(M&plus;m)\ddot&space;x&plus;ml\cdot&space;cos\theta&space;\cdot&space;\dot\theta^2" title="\frac{d}{dt}(\frac{\partial L}{\partial \dot x})=(M+m)\ddot x+ml\cdot cos\theta \cdot \dot\theta^2" />
+<img src="https://latex.codecogs.com/svg.latex?$$\frac{d}{dt}(\frac{\partial&space;L}{\partial&space;\dot\theta})=ml\cdot&space;cos\theta\cdot\ddot&space;x&space;&plus;&space;ml^2\ddot\theta$$" title="$$\frac{d}{dt}(\frac{\partial L}{\partial \dot\theta})=ml\cdot cos\theta\cdot\ddot x + ml^2\ddot\theta$$" />
 4. The canonical forces are:
-$$\frac{\partial L}{\partial x}=-kx$$ $$\frac{\partial L}{\partial\theta} = -ml\cdot\sin\theta\cdot\dot x \dot\theta-mgl\cdot\sin\theta $$
-5. because we have $$\frac{d}{dt}(\frac{\partial L}{\partial \dot x})=\frac{\partial L}{\partial x} \frac{d}{dt}(\frac{\partial L}{\partial \dot\theta})=\frac{\partial L}{\partial\theta}$$ Thus,
-$$(M+m)\ddot x+ml\cdot\cos\theta\cdot\ddot\theta-ml\sin\cdot\dot\theta^2=-kx$$ $$ml\cos\theta\cdot\ddot x + ml^2\ddot\theta^2=-mgl\sin\theta$$
-6. let $\mu=1+\frac{M}{m}$,we can get the second derivatives of $x$ and $\theta$, which are:
-   $$\ddot x=\frac{l\sin\theta\cdot\theta^2+g\sin\theta\cos\theta-\frac{k}{m}x}{\mu-\cos^2\theta}$$ $$\ddot\theta=\frac{\frac{k}{m}x\cos\theta-\mu g\sin\theta-l\sin\theta\cos\theta}{l(\mu-\cos^2\theta)}$$
+<img src="https://latex.codecogs.com/svg.latex?\frac{\partial&space;L}{\partial&space;x}=-kx" title="\frac{\partial L}{\partial x}=-kx" />
+<img src="https://latex.codecogs.com/svg.latex?\frac{\partial&space;L}{\partial\theta}&space;=&space;-ml\cdot\sin\theta\cdot\dot&space;x&space;\dot\theta-mgl\cdot\sin\theta" title="\frac{\partial L}{\partial\theta} = -ml\cdot\sin\theta\cdot\dot x \dot\theta-mgl\cdot\sin\theta" />
+5. because we have
+    <img src="https://latex.codecogs.com/svg.latex?\frac{d}{dt}(\frac{\partial&space;L}{\partial&space;\dot&space;x})=\frac{\partial&space;L}{\partial&space;x},&space;\frac{d}{dt}(\frac{\partial&space;L}{\partial&space;\dot\theta})=\frac{\partial&space;L}{\partial\theta}" title="\frac{d}{dt}(\frac{\partial L}{\partial \dot x})=\frac{\partial L}{\partial x}, \frac{d}{dt}(\frac{\partial L}{\partial \dot\theta})=\frac{\partial L}{\partial\theta}" /> 
+    Thus,
+<img src="https://latex.codecogs.com/svg.latex?(M&plus;m)\ddot&space;x&plus;ml\cdot\cos\theta\cdot\ddot\theta-ml\sin\cdot\dot\theta^2=-kx$$&space;$$ml\cos\theta\cdot\ddot&space;x&space;&plus;&space;ml^2\ddot\theta^2=-mgl\sin\theta" title="(M+m)\ddot x+ml\cdot\cos\theta\cdot\ddot\theta-ml\sin\cdot\dot\theta^2=-kx$$ $$ml\cos\theta\cdot\ddot x + ml^2\ddot\theta^2=-mgl\sin\theta" />
+1. let <img src="https://latex.codecogs.com/svg.latex?\mu=1&plus;\frac{M}{m}" title="\mu=1+\frac{M}{m}" />,we can get the second derivatives of <img src="https://latex.codecogs.com/svg.latex?x" title="x" /> and <img src="https://latex.codecogs.com/svg.latex?\theta" title="\theta" />, which are:
+<img src="https://latex.codecogs.com/svg.latex?\ddot&space;x=\frac{l\sin\theta\cdot\theta^2&plus;g\sin\theta\cos\theta-\frac{k}{m}x}{\mu-\cos^2\theta}$$&space;$$\ddot\theta=\frac{\frac{k}{m}x\cos\theta-\mu&space;g\sin\theta-l\sin\theta\cos\theta}{l(\mu-\cos^2\theta)}" title="\ddot x=\frac{l\sin\theta\cdot\theta^2+g\sin\theta\cos\theta-\frac{k}{m}x}{\mu-\cos^2\theta}$$ $$\ddot\theta=\frac{\frac{k}{m}x\cos\theta-\mu g\sin\theta-l\sin\theta\cos\theta}{l(\mu-\cos^2\theta)}" />
 So these two derivatives can be used as accelarations in a polar coordinate system.
 
 ## Prensentation
