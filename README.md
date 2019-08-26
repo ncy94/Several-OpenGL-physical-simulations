@@ -107,3 +107,12 @@ So these two derivatives can be used as accelarations in a polar coordinate syst
 
 ## Prensentation
 I attached the GIFs which showed the animation of each projects. If you find them interesting, you're welcome to read the code on the implementation. If you have and questions and concerns, don't hesitate to send me an email!
+
+* Three-body problem:
+  ![](labs/data/three-body.gif)
+
+* Spline:
+  ![](labs/data/spline.gif)
+
+* Sprint-Pendulum:
+  ![](labs/data/spring-pendulum.gif)
